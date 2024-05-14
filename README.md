@@ -2,7 +2,7 @@
 
 API REST para la reserva de vuelos.
 
-Este proyecto consiste en una API REST que te permitirá, mediante endpoints (públicos y privados), acceder a la creación de un usuario. El usuario puede ser cliente o vendedor.
+Este proyecto consiste en una API REST que te permitirá, mediante endpoints (públicos y privados), acceder a la creación de un usuario. El usuario puede ser cliente o vendedor. Un usuario cliente puede reservar y administrar sus vuelos. Un usuario vendedor puede crear y administrar los vuelos.
 
 ## Entidades
 
