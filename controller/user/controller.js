@@ -1,6 +1,7 @@
 
 const Users = require('../../database/userdb.json');
 const Reservas = require('../../database/reservasdb.json');
+const Vuelos = require('../../database/vuelodb.json')
 const links = require('../links');
 // Method to read all users
 exports.getAll = async (req, res) => {
@@ -22,7 +23,6 @@ exports.getOne = async (req,res) => {
   try {
     var userId = parseInt(req.params.id); // O puedes obtenerlo de req.params o req.query si es dinámico
     const user = Users.find(u => u.id === userId);
-  
     if (user) {
       res.json(user);
     } else {
@@ -48,7 +48,7 @@ exports.create = async (req,res) =>{
 
   Users.push(userToAdd);
     const resCreate = {
-      "message": `Usuario creado: ${userToAdd}`,
+      "Usuario creado": userToAdd,
       "Links": {
         "login":links.login
       }
@@ -84,23 +84,23 @@ exports.login = async (req,res) => {
     const foundUser = Users.find(u => u.user === user && u.pass === pass);
     if(!foundUser){
       res.status(401).json({message:"Credenciales invalidas."});
-    }
-    req.session.user = foundUser;
-    const resLogin = {
-      "message":"Se ha iniciado sesion de manera satisfactoria",
-      "Links":{
-        "Reservas":links.Reservas,
-        "Vuelos":links.Vuelos,
-        "Logout":links.Logout
+    } else {
+      req.session.user = foundUser;
+      const resLogin = {
+        "message":"Se ha iniciado sesion de manera satisfactoria",
+        "Links":{
+          "Reservas":links.Reservas,
+          "Vuelos":links.Vuelos,
+          "Logout":links.Logout
+        }
       }
-    }
-    res.json(resLogin);
+      res.json(resLogin);
+  }
     // console.log("usuario:" + req.session.user.user); 
   } catch (err){
     res.status(500).json({error:"Error interno del servidor"})
   }
 }
-//log out method
 exports.getReservas = async (req,res) =>{
   //primero verificar que haya anteriormente un inicio de sesion.
   if (!req.session || !req.session.user || !req.session.user.id) {
@@ -116,10 +116,15 @@ exports.getReservas = async (req,res) =>{
     try {
       const reservasCli = []
       Reservas.forEach((reserva) =>{
-        console.log(`id_cliente: ${reserva.cliente_id} cliente: ${userID}`);
         if(reserva.cliente_id===userID){
           reservasCli.push(reserva);
         }
+      })
+      reservasCli.forEach((reser) => {
+        const vuelo = Vuelos.find(v => v.id === reser.vuelo_id);
+        const user = Users.find(u=>u.id===reser.cliente_id);
+        reser.vuelo_id = vuelo;
+        reser.cliente_id = user;
       })
       res.json(reservasCli);
     } catch(err){
@@ -127,4 +132,33 @@ exports.getReservas = async (req,res) =>{
     }
   }
 }
-
+//log out method
+exports.Logout = async (req,res) => {
+  try
+  {
+    if(req.session){
+      req.session.destroy();
+      console.log("session destroyed")
+      const resLogout = {
+        message:"sesion cerrada correctamente",
+        Links:{ 
+          login:links.login,
+          vuelos:links.Vuelos,
+          sing_in:links.singIn
+        }
+      }
+      res.send(resLogout);
+    } else {
+      const resLogoutnt = {
+        message:"No hay una sesion abierta",
+        Links: {
+          login:links.login,
+          sing_in:links.singIn
+        }
+      }
+      res.send(resLogoutnt)
+    }
+  }catch(err){
+    res.status(500).json({error:"error interno del servidor"})
+  }
+}

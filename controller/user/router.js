@@ -12,5 +12,6 @@ router.post('/login', userController.login);
 router.get('/auth/reservas', userController.getReservas);
 
 router.post('/auth/reservas/:id', reservaController.createReserva)
+router.post('/logout', userController.Logout);
 
 module.exports = router;

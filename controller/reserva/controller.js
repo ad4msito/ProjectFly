@@ -4,11 +4,10 @@ exports.createReserva = async (req,res) =>{
     try {
         const highestId = Reservas.reduce((maxId, reserva) => Math.max(maxId, reserva.id), 0);
         const newId = highestId + 1;
-      
         const reservToAdd = {
           id: newId,
           cliente_id: req.session.user.id,
-          vuelo_id: req.params.vuelo_id,
+          vuelo_id: parseInt(req.params.id),
         };
     
       Reservas.push(reservToAdd);

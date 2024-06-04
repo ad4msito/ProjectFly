@@ -1,10 +1,12 @@
 const Vuelos = require('../../database/vuelodb.json');
 const Links = require('../links')
 exports.getVuelos = async (req,res) => {
-    try {    const resVuelos = {
+    try {    
+      const resVuelos = {
             Vuelos,
             Links : {
-                "vuelo":a
+                login:Links.login,
+                reservar:Links.CrearReserva
             }
         }
         res.json(resVuelos);
@@ -19,7 +21,7 @@ exports.getOne = async (req,res) => {
     console.log(vuelo);
     if (vuelo) {
       const resVuelo = {
-        message:`Ingresando al vuelo:${vuelo}`,
+        Vuelo:vuelo,
         Links:{
           reservar: Links.CrearReserva
         }
