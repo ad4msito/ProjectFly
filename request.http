@@ -1,0 +1,37 @@
+# # ver todos los usuarios disponibles para usar:
+# GET http://localhost:8080/api_v1/users
+
+# crear Usuario:
+POST http://localhost:8080/api_v1/users
+Content-Type: application/json
+{
+    "user":"example",
+    "pass":"123"
+}
+
+# login
+# POST http://localhost:8080/api_v1/users/login HTTP/1.1
+# Host: localhost
+# Content-Type: application/json
+
+# {
+#     "user":"example",
+#     "pass":"123"
+# }
+
+# # obtener tus reservas:
+# GET http://localhost:8080/api_v1/users/auth/reservas HTTP/1.1
+
+# # Ver los vuelos disponibles:
+# GET http://localhost:8080/api_v1/vuelos HTTP/1.1
+
+# # Crear reserva:
+# POST http://localhost:8080/api_v1/users/auth/reservas/:id HTTP/1.1
+
+# # Cerrar sesion:
+# POST http://localhost:8080/api_v1/users/logout HTTP/1.1
+
+
+
+
+
