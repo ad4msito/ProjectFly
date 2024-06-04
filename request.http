@@ -25,7 +25,7 @@ Content-Type: application/json
 # # Ver los vuelos disponibles:
 # GET http://localhost:8080/api_v1/vuelos HTTP/1.1
 
-# # Crear reserva:
+# # Crear reserva: (el :id es el id del vuelo a reservar)
 # POST http://localhost:8080/api_v1/users/auth/reservas/:id HTTP/1.1
 
 # # Cerrar sesion:
